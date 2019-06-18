@@ -8,17 +8,32 @@ It looks like this (only smaller):
 
 ## Installation
 ### MacOS via Homebrew
+Execute the following lines in your terminal.
+
 ```sh
 brew tap masukomi/homebrew-apps
 brew install days_progress
+# then ... 
+chicken-install filepath
+chicken-install simple-loops
+chicken-install ansi-escape-sequences
 ```
+
+(Side note: I tried having the homebrew script run those chicken-install lines for you. It results in "Operation not permitted". If you know how to get around this _please_ submit a PR. I'd really appreciate it.)
 
 ### Building from source
 Requires [Chicken Scheme](http://call-cc.org/) >= 5.0
 
-Compile it by running
+Compile it by executing the following lines in your terminal
 
 ```sh
+# Install the required eggs (libraries)
+# (You only have to do this once)
+chicken-install filepath
+chicken-install simple-loops
+chicken-install ansi-escape-sequences
+
+# Now compile the code
 csc days_progress.scm
 ```
 
@@ -34,6 +49,8 @@ It uses a simple configuration file that needs to live at
 ```
 
 Mine looks like this. If it looks a little weird to you that's becasue this is actually a tiny program in Chicken Scheme.
+
+To get started I recommend editing the [days_progress_config.scm](days_progress_config.scm) file in this repository, and then moving it to the location above.
 
 ```scheme
 (define my-utc-offset -4)
