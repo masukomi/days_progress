@@ -13,13 +13,7 @@ Execute the following lines in your terminal.
 ```sh
 brew tap masukomi/homebrew-apps
 brew install days_progress
-# then ... 
-chicken-install filepath
-chicken-install simple-loops
-chicken-install ansi-escape-sequences
 ```
-
-(Side note: I tried having the homebrew script run those chicken-install lines for you. It results in "Operation not permitted". If you know how to get around this _please_ submit a PR. I'd really appreciate it.)
 
 ### Building from source
 Requires [Chicken Scheme](http://call-cc.org/) >= 5.0

@@ -6,25 +6,8 @@ if [ "$1" != "" ]; then
 #  perl -pi -e "s/VERSION_NUMBER_HERE/$1/" src/days_progress.scm
 fi
 
-# function build_libraries {
-#   echo "building libraries"
-#   if [ -d "libs" ]; then
-#       rm -rf libs
-#   fi
-#   chicken-install filepath
-#   chicken-install -deploy -p libs/ filepath
-#   chicken-install simple-loops
-#   chicken-install -deploy -p libs/ simple-loops
-#   chicken-install ansi-escape-sequences
-#   chicken-install -deploy -p libs/ ansi-escape-sequences
-#   chicken-install -deploy -p libs/ srfi-13
-# }
-# function build_local {
-#   echo "compiling days_progress.scm"
-#   csc days_progress.scm
-# }
 
-csc days_progress.scm 
+csc -static days_progress.scm 
 echo "Version: $VERSION"
 version_dir="days_progress_$VERSION"
 rm -rf $version_dir
