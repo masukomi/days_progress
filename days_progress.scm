@@ -53,6 +53,8 @@
 (define end-hour 
   (utc-offset-converter my-utc-offset end-hour-local)) 
 
+
+
 (cond 
   ((< current-utc-hour start-hour)
 	(printf "~A: " (set-text '(fg-red) start-hour-label)))
@@ -63,14 +65,11 @@
 
 
 (do-for iter-hour ((+ start-hour 1) (- end-hour 1) 1)
-		(if (and 
-			  (>= current-utc-hour start-hour)
-			  (<= current-utc-hour end-hour))
 			(if (= current-utc-hour iter-hour)
 			  (printf "~A " (set-text '(fg-blue) "|"))
 			  (printf "~A " (set-text '(fg-green) "."))
 
-			  )))
+			  ))
 (cond 
   ((> current-utc-hour end-hour)
 	(printf ":~A" (set-text '(fg-red) end-hour-label)))
