@@ -6,6 +6,12 @@ It looks like this (only smaller):
 
 ![day's progress example image](days_progress_example_image.png)
 
+## Usage
+
+After installing and configuring (see below) just run `days_progress` in your terminal. That's it.
+
+
+
 ## Installation
 ### MacOS via Homebrew
 Execute the following lines in your terminal.
