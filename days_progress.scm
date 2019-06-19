@@ -16,6 +16,7 @@
 (define my-utc-offset -4) ; EDT because... *shrug* had to pick something
 (define start-hour-local 9)
 (define end-hour-local 18) ; 24 hr time
+(define day-cutover-hour-local 4)
 (define start-hour-label "9 EDT")
 (define end-hour-label "6 PST")
 ;;;
@@ -53,10 +54,17 @@
 (define end-hour 
   (utc-offset-converter my-utc-offset end-hour-local)) 
 
-
+(define day-cutover-hour
+  (if (< day-cutover-hour-local start-hour-local)
+  	(utc-offset-converter my-utc-offset day-cutover-hour-local)
+	(- start-hour 1)
+	))
 
 (cond 
-  ((< current-utc-hour start-hour)
+  (
+   (and (< current-utc-hour start-hour)
+		(> current-utc-hour day-cutover-hour)
+		)
 	(printf "~A: " (set-text '(fg-red) start-hour-label)))
   ((= current-utc-hour start-hour)
 	(printf "~A: " (set-text '(fg-green) start-hour-label)))

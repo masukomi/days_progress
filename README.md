@@ -56,6 +56,7 @@ To get started I recommend editing the [days_progress_config.scm](days_progress_
 (define my-utc-offset -4)
 (define start-hour-local 9)
 (define end-hour-local 21)
+(define day-cutover-hour-local 4)
 (define start-hour-label "9 EDT")
 (define end-hour-label "6 PST")
 ```
@@ -77,6 +78,12 @@ What hour of the day do I consider the "end" (in my time zone)?
 
 ```scheme
 (define end-hour-local 21)
+```
+
+When does the new "day" start? When working late midnight is rarely the "end" of the "day". Pick a time that's later than you would ever reasonably stay up. I've chosen 4AM. This must be < `start-hour-local`
+
+```scheme
+(define day-cutover-hour-local 4)
 ```
 
 The labels are for display only. I use

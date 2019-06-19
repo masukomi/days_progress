@@ -11,6 +11,13 @@
 ; What hour of the day do I consider the "end" (in my time zone)?
 (define end-hour-local 21)
 
+(define day-cutover-hour-local 4)
+
+; When does the new "day" start? When working late, midnight
+; is rarely the "end" of the "day". Pick a time that's
+; later than you would ever reasonably stay up. I've chosen 4AM. Must be < start-hour-local
+
+
 ; labels: These are for display only. I use
 ; "9 EDT" and "6 PST" because I start work at 9 AM EDT
 ; and my coworkers _end_ their day at 6 PM PST
