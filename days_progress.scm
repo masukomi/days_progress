@@ -2,6 +2,7 @@
 (import chicken.format)
 (import chicken.time)
 (import chicken.time.posix)
+(import chicken.process-context)
 (import chicken.process-context.posix)
 (import chicken.file) ; see also chicken.file.posix
 (import chicken.load)
@@ -43,7 +44,11 @@
 
 ; now
 (define now-epoch (current-seconds))
-(define current-utc-hour  (vector-ref (seconds->utc-time now-epoch) 2 ))
+
+(define current-utc-hour 
+  (if (not (get-environment-variable "DP_TEST_HOUR"))
+	(vector-ref (seconds->utc-time now-epoch) 2 )
+	(string->number (get-environment-variable "DP_TEST_HOUR"))))
 
 
 (define (utc-offset-converter offset hour)
