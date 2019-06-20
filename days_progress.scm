@@ -50,9 +50,14 @@
 	(vector-ref (seconds->utc-time now-epoch) 2 )
 	(string->number (get-environment-variable "DP_TEST_HOUR"))))
 
+; (printf "DEBUGGING:~% DP_TEST_HOUR: ~A~%" (get-environment-variable "DP_TEST_HOUR"))
 
 (define (utc-offset-converter offset hour)
-  (+ (* -1 offset) hour))
+  (let ((new-hour (+ (* -1 offset) hour)))
+	(if (<= new-hour 23)
+	  new-hour
+	  (- new-hour 24))
+	))
 
 (define start-hour 
   (utc-offset-converter my-utc-offset start-hour-local)) 
@@ -65,6 +70,11 @@
 	(- start-hour 1)
 	))
 
+; dots end 1hr before end-hour, thus +23 and -1
+(define iterable-end-hour 
+	(if (< end-hour start-hour)
+	  (+ end-hour 23)
+	  (- end-hour 1)))
 (cond 
   (
    (and (< current-utc-hour start-hour)
@@ -76,20 +86,27 @@
   (else 
 	(printf "~A: " start-hour-label)))
 
-
-(do-for iter-hour ((+ start-hour 1) (- end-hour 1) 1)
-			(if (= current-utc-hour iter-hour)
+(do-for iter-hour ((+ start-hour 1) iterable-end-hour 1)
+		(let ((testable-iter-hour 
+				(if (<= iter-hour 23)
+				  iter-hour
+				  (- iter-hour 24))))
+			(if (= current-utc-hour testable-iter-hour)
 			  (printf "~A " (set-text '(fg-blue) "|"))
 			  (printf "~A " (set-text '(fg-green) "."))
 
-			  ))
+			  )))
+
+; (printf "DEBUGGING~%start-hour: ~A~%end-hour: ~A~%current-utc-hour: ~A~%day-cutover-hour: ~A~%" start-hour end-hour current-utc-hour day-cutover-hour)
 (cond 
+  ((> current-utc-hour day-cutover-hour); early, not late
+   (printf ":~A" end-hour-label))
   ((> current-utc-hour end-hour)
 	(printf ":~A" (set-text '(fg-red) end-hour-label)))
   ((= current-utc-hour end-hour)
 	(printf ":~A" (set-text '(fg-green) end-hour-label)))
   (else 
-	(printf ":~A " end-hour-label)))
+	(printf ":~A" end-hour-label)))
 
 ; print start hour utc
 ; iterate between...

@@ -29,5 +29,5 @@
 ; What label do I want shown at the start of the output?
 (define start-hour-label "9 EDT")
 ; What label do I want shown at the end of the output?
-(define end-hour-label "6 PST")
+(define end-hour-label "6 PDT")
 
