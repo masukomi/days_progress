@@ -16,6 +16,7 @@
 ; DEFAULTS
 (define my-utc-offset -4) ; EDT because... *shrug* had to pick something
 (define start-hour-local 9)
+(define my-end-hour-local 999) ;won't be used by default
 (define end-hour-local 18) ; 24 hr time
 (define day-cutover-hour-local 4)
 (define start-hour-label "9 EDT")
@@ -63,6 +64,9 @@
   (utc-offset-converter my-utc-offset start-hour-local)) 
 (define end-hour 
   (utc-offset-converter my-utc-offset end-hour-local)) 
+(define my-end-hour
+  (utc-offset-converter my-utc-offset my-end-hour-local ))
+
 
 (define day-cutover-hour
   (if (< day-cutover-hour-local start-hour-local)
@@ -75,9 +79,10 @@
 	(if (< end-hour start-hour)
 	  (+ end-hour 23)
 	  (- end-hour 1)))
+
+; display the start label
 (cond 
-  (
-   (and (< current-utc-hour start-hour)
+  ( (and (< current-utc-hour start-hour)
 		(> current-utc-hour day-cutover-hour)
 		)
 	(printf "~A: " (set-text '(fg-red) start-hour-label)))
@@ -86,17 +91,27 @@
   (else 
 	(printf "~A: " start-hour-label)))
 
+; display the dots
 (do-for iter-hour ((+ start-hour 1) iterable-end-hour 1)
-		(let ((testable-iter-hour 
-				(if (<= iter-hour 23)
-				  iter-hour
-				  (- iter-hour 24))))
-			(if (= current-utc-hour testable-iter-hour)
-			  (printf "~A " (set-text '(fg-blue) "|"))
-			  (printf "~A " (set-text '(fg-green) "."))
+		(let* (	(testable-iter-hour 
+					(if (<= iter-hour 23)
+					  iter-hour
+					  (- iter-hour 24)))
+				(hour-string (if (= current-utc-hour testable-iter-hour) "| " ". "))
+				(color 
+					(if (= testable-iter-hour my-end-hour)
+						'(fg-yellow)
+						(if (= current-utc-hour testable-iter-hour)
+							'(fg-blue)
+							'(fg-green)
+						  )
+					  )
+				  )
+			   )
+			(printf "~A" (set-text color hour-string))
+		))
 
-			  )))
-
+; display the end label
 ; (printf "DEBUGGING~%start-hour: ~A~%end-hour: ~A~%current-utc-hour: ~A~%day-cutover-hour: ~A~%" start-hour end-hour current-utc-hour day-cutover-hour)
 (cond 
   ((> current-utc-hour day-cutover-hour); early, not late

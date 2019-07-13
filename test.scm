@@ -53,12 +53,15 @@
   )
 ; test docs here: http://wiki.call-cc.org/eggref/5/test
 
-(test "just dots (before start ignore color)" "9 EDT: . . . . . . . . . . :6 PDT"
+(test "just dots (before start ignore color)"
+	  "9 EDT: . . . . . . . . . . :6 PDT"
 	  (capture-for-hour-no-esc 4))
 
-(test "start hour" "9 EDT: . . . . . . . . . . :6 PDT"
+(test "start hour" 
+	  "9 EDT: . . . . . . . . . . :6 PDT"
 	  (capture-for-hour-no-esc 13))
-(test "10 AM" "9 EDT: | . . . . . . . . . :6 PDT"
+(test "10 AM" 
+	  "9 EDT: | . . . . . . . . . :6 PDT"
 	  (capture-for-hour-no-esc 14)) ; 14 UTC=10 EDT
 
 ; test that when the hour is in the middle of the day 
@@ -71,15 +74,25 @@
 
 (test "working too early (ignore color)" "9 EDT: . . . . . . . . . . :6 PDT"
 	  (capture-for-hour-no-esc 9)) ; cutoff is 4 start is 13
-(test "working too early (w/ color)" "\x1b[31m9 EDT\x1b[0m: \x1b[32m.\x1b[0m \x1b[32m.\x1b[0m \x1b[32m.\x1b[0m \x1b[32m.\x1b[0m \x1b[32m.\x1b[0m \x1b[32m.\x1b[0m \x1b[32m.\x1b[0m \x1b[32m.\x1b[0m \x1b[32m.\x1b[0m \x1b[32m.\x1b[0m :6 PDT"
+(test "working too early (w/ color)" "\x1b[31m9 EDT\x1b[0m: \x1b[32m. \x1b[0m\x1b[32m. \x1b[0m\x1b[32m. \x1b[0m\x1b[32m. \x1b[0m\x1b[32m. \x1b[0m\x1b[32m. \x1b[0m\x1b[32m. \x1b[0m\x1b[33m. \x1b[0m\x1b[32m. \x1b[0m\x1b[32m. \x1b[0m:6 PDT"
 	  (capture-for-hour 9)) ; cutoff is 4 start is 13
 
 (test "working too late (ignore color)" "9 EDT: . . . . . . . . . . :6 PDT"
 	  (capture-for-hour-no-esc 2)) ; end is 1 cutoff is 4 start is 13
 
 (test "working too late (w/ color)"
-	  "9 EDT: \x1b[32m.\x1b[0m \x1b[32m.\x1b[0m \x1b[32m.\x1b[0m \x1b[32m.\x1b[0m \x1b[32m.\x1b[0m \x1b[32m.\x1b[0m \x1b[32m.\x1b[0m \x1b[32m.\x1b[0m \x1b[32m.\x1b[0m \x1b[32m.\x1b[0m :\x1b[31m6 PDT\x1b[0m"
+	  "9 EDT: \x1b[32m. \x1b[0m\x1b[32m. \x1b[0m\x1b[32m. \x1b[0m\x1b[32m. \x1b[0m\x1b[32m. \x1b[0m\x1b[32m. \x1b[0m\x1b[32m. \x1b[0m\x1b[33m. \x1b[0m\x1b[32m. \x1b[0m\x1b[32m. \x1b[0m:\x1b[31m6 PDT\x1b[0m"
 	  (capture-for-hour 2)) ; end is 1 cutoff is 4 start is 13
+
+; we care about the 33m in the my end hour tests
+; that's yellow
+(test "my end hour dot colored correctly"
+	  "9 EDT: \x1b[32m. \x1b[0m\x1b[32m. \x1b[0m\x1b[32m. \x1b[0m\x1b[32m. \x1b[0m\x1b[32m. \x1b[0m\x1b[34m| \x1b[0m\x1b[32m. \x1b[0m\x1b[33m. \x1b[0m\x1b[32m. \x1b[0m\x1b[32m. \x1b[0m:6 PDT"
+	  (capture-for-hour 19))
+
+(test "my end hour bar colored correctly"
+	  "9 EDT: \x1b[32m. \x1b[0m\x1b[32m. \x1b[0m\x1b[32m. \x1b[0m\x1b[32m. \x1b[0m\x1b[32m. \x1b[0m\x1b[32m. \x1b[0m\x1b[32m. \x1b[0m\x1b[33m| \x1b[0m\x1b[32m. \x1b[0m\x1b[32m. \x1b[0m:6 PDT"
+	  (capture-for-hour 21))
 
 
 

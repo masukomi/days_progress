@@ -55,6 +55,7 @@ To get started I recommend editing the [days_progress_config.scm](days_progress_
 ```scheme
 (define my-utc-offset -4)
 (define start-hour-local 9)
+(define my-end-hour-local 17)
 (define end-hour-local 21)
 (define day-cutover-hour-local 4)
 (define start-hour-label "9 EDT")
@@ -74,6 +75,14 @@ What hour of the day do I consider the "start" (in my time zone)?
 ```scheme
 (define start-hour-local 9)
 ```
+
+What hour of the day do I consider the "end" of _my_ day.
+This should always be <= end-local-hour.
+
+```scheme
+(define my-end-hour-local 17)
+```
+
 What hour of the day do I consider the "end" (in my time zone)?
 
 ```scheme
