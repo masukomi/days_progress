@@ -128,4 +128,4 @@ What label do I want shown at the end of the output?
 
 PRs are happily accepted. Just confirm that the tests in `test.scm` still pass, and any new functionality is covered by new tests. 
 
-Anyhing that makes this more configurable, or easier to use is heartily welcomed. 
+Anything that makes this more configurable, or easier to use is heartily welcomed. 
