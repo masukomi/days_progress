@@ -6,11 +6,21 @@ It looks like this (only smaller):
 
 ![day's progress example image](days_progress_example_image.png)
 
+As you can see, it's intended to help people with distributed teams. You configured it by telling it when the earliest riser on your team starts their day, when you end your day, and when the latest riser ends their day. It's ok if some of those times are the same. 
+
+There's a bar the makes its way from left to right as the day progresses. If you end your day before some of your teammates then there will be a little yellow dot for the end of _your_ day. It's intentionally subtle. When integrated into your command line prompt it shouldn't be a source of stress. 
+
 ## Usage
 
 After installing and configuring (see below) just run `days_progress` in your terminal. That's it.
 
+I've added it to the line just above my command line prompt. That way there's always a little graph of how far I've progressed in the day, and how much time I have left to coordinate with my remote team members. 
 
+
+### Notes on colors
+The start and end hour labels will be green while you are in than hour. For example. If you start your day at 9:00 EDT (like I do) then the "9:00 EDT" will be green from 9 to 10. In order to encourage you to only work during work hours, the start label will be red if you start working early and the end label will be red if you're working late. The rest of the day they're white.
+
+The progress bar "|" is blue, and progresses across a field of green dots. The exception to this if your end hour is before some of your coworkers. In this case there will be a yelow dot at that hour, and the bar will turn yellow during that hour.
 
 ## Installation
 ### MacOS via Homebrew
@@ -113,3 +123,9 @@ What label do I want shown at the end of the output?
 ```scheme
 (define end-hour-label "6 PST")
 ```
+
+## Contributing
+
+PRs are happily accepted. Just confirm that the tests in `test.scm` still pass, and any new functionality is covered by new tests. 
+
+Anyhing that makes this more configurable, or easier to use is heartily welcomed. 
