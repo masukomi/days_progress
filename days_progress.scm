@@ -1,26 +1,41 @@
 #!/usr/bin/env csi -s 
+(import ansi-escape-sequences)
+(import chicken.file) ; see also chicken.file.posix
 (import chicken.format)
-(import chicken.time)
-(import chicken.time.posix)
+(import chicken.load)
 (import chicken.process-context)
 (import chicken.process-context.posix)
-(import chicken.file) ; see also chicken.file.posix
-(import chicken.load)
+(import chicken.string) ; string-translate*
+(import chicken.time)
+(import chicken.time.posix)
 (import filepath)
-(import srfi-13)
+(import shell)
 (import simple-loops)
-(import ansi-escape-sequences)
+(import srfi-13)
 ;(import listicles)
 
 
 ; DEFAULTS
-(define my-utc-offset -4) ; EDT because... *shrug* had to pick something
+;
+;
+(define my-utc-offset (string->number
+											 	(string-translate* (capture "date \"+%z\"") '(
+													("\n". "")
+													("0" . "")
+												))
+											 ))
+(define my-current-tz (string-translate*
+											 (capture "date \"+%Z\"") '(
+													("\n". "")
+													("0" . "")
+												))
+	)
 (define start-hour-local 9)
 (define my-end-hour-local 999) ;won't be used by default
 (define end-hour-local 18) ; 24 hr time
 (define day-cutover-hour-local 4)
-(define start-hour-label "9 EDT")
-(define end-hour-label "6 PST")
+(define start-hour-label (conc "9 " my-current-tz ))
+(define end-hour-label (conc "6 " my-current-tz))
 ;;;
 (define home (vector-ref
 							(list->vector 
