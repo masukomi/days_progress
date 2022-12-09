@@ -23,13 +23,6 @@ The start and end hour labels will be green while you are in than hour. For exam
 The progress bar "|" is blue, and progresses across a field of green dots. The exception to this if your end hour is before some of your coworkers. In this case there will be a yelow dot at that hour, and the bar will turn yellow during that hour.
 
 ## Installation
-### MacOS via Homebrew
-Execute the following lines in your terminal.
-
-```sh
-brew tap masukomi/homebrew-apps
-brew install days_progress
-```
 
 ### Building from source
 Requires [Chicken Scheme](http://call-cc.org/) >= 5.0
@@ -37,20 +30,20 @@ Requires [Chicken Scheme](http://call-cc.org/) >= 5.0
 Compile it by executing the following lines in your terminal
 
 ```sh
-# Install the required eggs (libraries)
-# (You only have to do this once)
-chicken-install filepath
-chicken-install simple-loops
-chicken-install ansi-escape-sequences
-
+# install the required libraries
+./install_chicken_eggs.sh
 # Now compile the code
 csc days_progress.scm
 ```
 
 Then move the new `days_progress` file somewhere on your [PATH](https://youtu.be/rJMFxIbDe-g).
 
+### Prerequisites
+It assumes that the `date` program is avalilable on your system. This
+comes by default on linux, macOS, and BSD. 
+
 ## Configuration
-You need to tell `days_progress` what you consider the start and end of _your_ day to be. 
+You want to tell `days_progress` what you consider the start and end of _your_ day to be. 
 
 It uses a simple configuration file that needs to live at 
 
@@ -58,9 +51,9 @@ It uses a simple configuration file that needs to live at
 ~/.config/days_progress/days_progress_config.scm
 ```
 
-Mine looks like this. If it looks a little weird to you that's becasue this is actually a tiny program in Chicken Scheme.
+Mine looks like this. If it looks a little weird to you that's becasue this is actually a tiny bit of Chicken Scheme.
 
-To get started I recommend editing the [days_progress_config.scm](days_progress_config.scm) file in this repository, and then moving it to the location above.
+To get started I recommend editing the [days_progress_config.scm](days_progress_config.scm) file in this repository, and then moving it to the location above. Note that hours like `start-hour-local` are in 24hr time and expect integers.
 
 ```scheme
 (define my-utc-offset -4)
@@ -99,7 +92,7 @@ What hour of the day do I consider the "end" (in my time zone)?
 (define end-hour-local 21)
 ```
 
-When does the new "day" start? When working late midnight is rarely the "end" of the "day". Pick a time that's later than you would ever reasonably stay up. I've chosen 4AM. This must be < `start-hour-local`
+When does the new "day" start? When working late, midnight is rarely the "end" of the "day". Pick a time that's later than you would ever reasonably stay up. I've chosen 4AM. This must be < `start-hour-local`
 
 ```scheme
 (define day-cutover-hour-local 4)
